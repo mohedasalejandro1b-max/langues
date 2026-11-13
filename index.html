@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="French and Spanish for everyday life. Online courses, cultural workshops and language practice with Polyglocio.">
+<title>Polyglocio — A new way to live languages.</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f8f6f2;--paper:#fffdfa;--ink:#282135;
+  --muted:#62596c;--line:#ded9e3;--border:#84738f;
+  --purple:#7540e8;--accent:#6225ce;--lilac:#e8def8;
+  --soft:#f0ece7;--deep:#282135;--on-deep:#fffaf1;
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#18151f;--paper:#211c2a;--ink:#f6f0ff;
+  --muted:#c5bacf;--line:#44374f;--border:#9c89aa;
+  --purple:#b499ff;--accent:#c5abff;--lilac:#352844;
+  --soft:#292331;--deep:#30223f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.65 Arial,Helvetica,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button,a,input,select,textarea,summary{-webkit-tap-highlight-color:transparent}
+:where(a,button,input,select,textarea,summary):focus-visible{
+  outline:3px solid var(--accent);outline-offset:4px;
+}
+[hidden]{display:none!important}
+::selection{background:var(--lilac);color:var(--ink)}
+.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+.sheet{
+  margin:24px 0;background:var(--paper);
+  border:1px solid var(--line);border-radius:24px;
+  padding:44px 50px;
+}
+header{position:relative;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.brand{font-size:29px;font-weight:800;letter-spacing:-1.8px;line-height:1}
+.brand span{color:var(--purple)}
+.tagline{font-size:10px;color:var(--muted);margin:8px 0 0}
+.nav{display:flex;align-items:center;gap:18px;margin-left:auto}
+.nav a{font-size:12px;font-weight:600}
+.nav a:hover{color:var(--accent)}
+.controls{display:flex;align-items:center;gap:8px}
+.icon-button,.menu-button{
+  border:1px solid var(--border);background:var(--paper);
+  color:var(--ink);min-height:44px;border-radius:100px;
+}
+.icon-button{width:44px;height:44px;padding:0;display:grid;place-items:center}
+.icon-button:hover{background:var(--lilac);color:var(--accent)}
+.menu-button{padding:9px 14px;display:none;font-size:12px}
+.language{position:relative;z-index:40}
+.language-panel{
+  position:absolute;right:0;top:54px;width:210px;padding:9px;
+  border:1px solid var(--border);border-radius:17px;
+  background:var(--paper);box-shadow:0 14px 35px #17102126;
+}
+.language-panel p{
+  font-size:9px;letter-spacing:1.3px;text-transform:uppercase;
+  color:var(--muted);text-align:center;margin:5px 8px 8px;
+}
+.language-option{
+  position:relative;width:100%;min-height:44px;padding:11px 30px;
+  border:0;border-radius:10px;text-align:center;
+  background:transparent;color:var(--ink);font-size:13px;font-weight:600;
+}
+.language-option:hover{background:var(--soft)}
+.language-option[aria-pressed="true"]{background:var(--lilac);color:var(--accent)}
+.language-option[aria-pressed="true"]:after{
+  content:"✓";position:absolute;right:13px;
+}
+.hero{display:grid;grid-template-columns:1.12fr 1fr;gap:45px;align-items:center;margin-top:64px}
+.eyebrow{
+  color:var(--accent);font-size:10px;letter-spacing:1.8px;
+  text-transform:uppercase;font-weight:700;line-height:1.7;
+}
+h1,h2,h3,p{margin:0}
+h1{
+  font-size:clamp(43px,5.5vw,65px);line-height:1.03;
+  letter-spacing:-3px;font-weight:600;margin:22px 0 28px;
+}
+h1 em{font-style:normal;color:var(--purple)}
+h2{font-size:clamp(29px,4vw,41px);line-height:1.15;letter-spacing:-1.4px;font-weight:500;margin:12px 0 18px}
+h3{font-size:23px;line-height:1.3;letter-spacing:-.5px;font-weight:500}
+.lead{font-size:16px;color:var(--muted);max-width:650px}
+.hero-actions{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin-top:28px}
+.button{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:16px;min-height:46px;padding:13px 21px;border-radius:100px;
+  border:1px solid var(--border);background:var(--paper);
+  color:var(--ink);font-size:13px;font-weight:700;text-align:center;
+}
+.button.primary{background:var(--purple);border-color:var(--purple);color:white}
+.button.primary:hover{background:#6028ce;border-color:#6028ce}
+[data-theme="dark"] .button.primary{color:#211433}
+[data-theme="dark"] .button.primary:hover{background:#cbb8ff;border-color:#cbb8ff}
+.button.secondary:hover{background:var(--soft)}
+.text-link{font-size:13px;text-decoration:underline;text-underline-offset:5px;color:var(--muted)}
+.text-link:hover{color:var(--accent)}
+.trust,.note{font-size:12px;margin-top:16px;line-height:1.7}
+.note{color:var(--muted)}
+.hero-art{
+  background:var(--lilac);border-radius:110px 110px 20px 20px;
+  padding:42px 22px 24px;position:relative;overflow:hidden;
+}
+.art-star{font-size:39px;color:var(--accent);text-align:center;margin-bottom:14px}
+.greeting{position:relative;background:var(--paper);padding:23px;border-radius:16px;margin:14px 0}
+.greeting.green{background:#dfedb7;color:#374229}
+.greeting small{font-size:9px;letter-spacing:1px;font-weight:700}
+.greeting strong{display:block;font:italic 44px/1.2 Georgia,serif;margin:8px 0}
+.greeting a{font-size:18px;text-decoration:underline;text-underline-offset:5px}
+.art-price{padding:8px 4px 0;font-size:10px}
+.art-price strong{font-size:26px;display:block;font-weight:600}
+.experience{margin-top:55px;border-top:1px solid var(--line);padding-top:26px}
+.three,.two,.workshops{display:grid;gap:18px}
+.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.steps{margin-top:23px}
+.step-number{color:var(--accent);font-size:11px;margin-bottom:12px}
+.step p,.card p{color:var(--muted);font-size:14px;margin-top:11px}
+.step h3{font-size:22px}
+.section-head{margin-bottom:27px}
+.card{border:1px solid var(--line);border-radius:18px;padding:26px;min-width:0}
+.card.lilac{background:var(--lilac)}
+.card.soft{background:var(--soft)}
+.card .button{margin-top:24px}
+.tag{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--accent);font-weight:700}
+.price{font-size:42px;line-height:1.15;letter-spacing:-1.5px;margin:18px 0 8px}
+.price small{font-size:12px;letter-spacing:0;color:var(--muted)}
+.standard{font-size:12px;color:var(--muted);margin-top:15px}
+.facts{display:flex;gap:7px;flex-wrap:wrap;margin-top:20px}
+.fact{padding:6px 10px;border-radius:100px;border:1px solid var(--border);font-size:10px;color:var(--accent)}
+.calendar{background:var(--lilac);border:1px solid var(--line);border-radius:17px;padding:24px;margin:25px 0}
+.calendar h3{font-size:20px;margin:8px 0}
+.calendar p{color:var(--muted);font-size:13px}
+.course-extras{margin-top:18px}
+.course-extras summary{font-weight:600;cursor:pointer}
+.course-extras p{font-size:13px;color:var(--muted);margin-top:13px}
+.workshops{grid-template-columns:repeat(3,minmax(0,1fr))}
+.workshop-icon{font:italic 36px Georgia,serif;color:var(--accent);margin-bottom:18px}
+.workshops h3{font-size:21px}
+.qualification{background:var(--lilac);border:1px solid var(--line);border-radius:17px;padding:24px;margin:24px 0}
+.qualification p{font-size:15px;color:var(--muted);margin-top:12px}
+.route{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.route button{
+  border:1px solid var(--border);border-radius:100px;padding:10px 15px;
+  background:var(--paper);color:var(--ink);font-size:12px;
+}
+.route button[aria-pressed="true"]{background:var(--lilac);color:var(--accent);border-color:var(--accent)}
+.route-story{margin-top:17px;color:var(--muted);font-size:14px}
+.practice-tabs{display:flex;gap:10px;margin:23px 0}
+.practice-tabs button[aria-pressed="true"]{background:var(--lilac);color:var(--accent)}
+.game{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:28px;margin-top:18px}
+.game .scene{font:italic 27px/1.3 Georgia,serif;margin-bottom:15px}
+.game p{margin:12px 0}
+.game-options{display:grid;gap:10px;margin-top:19px}
+.game-options button{
+  text-align:left;padding:14px 17px;background:var(--paper);color:var(--ink);
+  border:1px solid var(--border);border-radius:11px;
+}
+.game-options button:hover{background:var(--lilac)}
+.game-feedback{min-height:30px;font-size:14px;margin:18px 0}
+.game .button{margin-top:12px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.field{display:block;min-width:0}
+.field.wide{grid-column:1/-1}
+.field span{font-size:13px;font-weight:600;display:block;margin-bottom:8px}
+input,select,textarea{
+  width:100%;min-height:48px;border:1px solid var(--border);
+  background:var(--paper);color:var(--ink);border-radius:10px;padding:11px 12px;
+}
+textarea{min-height:100px;resize:vertical}
+.form-actions{margin-top:24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.form-error{color:#992540;margin-bottom:20px;font-size:14px}
+[data-theme="dark"] .form-error{color:#ffb3c6}
+.summary{background:var(--lilac);border:1px solid var(--line);padding:25px;border-radius:17px;margin-top:28px}
+.summary dl{margin:20px 0}
+.summary dl>div{display:grid;grid-template-columns:130px 1fr;gap:15px;padding:10px 0;border-bottom:1px solid var(--line)}
+.summary dt{color:var(--muted);font-size:12px}
+.summary dd{margin:0;font-size:13px;overflow-wrap:anywhere;white-space:pre-wrap}
+.summary-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+footer{padding:15px 0 40px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.skip{position:fixed;top:-100px;left:20px;z-index:100;background:var(--paper);padding:14px;border:1px solid var(--border)}
+.skip:focus{top:10px}
+@media(max-width:900px){
+  .nav{display:none;position:absolute;top:calc(100% + 12px);left:0;right:0;
+    z-index:30;background:var(--paper);border:1px solid var(--border);border-radius:15px;padding:14px}
+  .nav.open{display:flex;flex-direction:column;align-items:stretch}
+  .nav a{padding:10px 12px;font-size:14px}
+  .menu-button{display:block}
+  .controls{margin-left:auto}
+  .hero{gap:26px}
+  .workshops{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:650px){
+  .wrap{width:calc(100% - 24px)}
+  .sheet{padding:29px 22px;border-radius:18px;margin:12px 0}
+  .brand-block{flex-basis:100%}
+  header{gap:15px}
+  .language-panel{left:50%;right:auto;transform:translateX(-50%)}
+  .hero{grid-template-columns:1fr;margin-top:38px}
+  h1{font-size:48px;letter-spacing:-2.5px}
+  .hero-art{margin-top:10px}
+  .three,.two,.workshops,.form-grid{grid-template-columns:1fr}
+  .field.wide{grid-column:auto}
+  .experience{margin-top:35px}
+  .step{padding:16px 0;border-top:1px solid var(--line)}
+  .step:first-child{border-top:0}
+  .card{padding:23px}
+  .summary dl>div{grid-template-columns:1fr;gap:3px}
+  .summary-actions .button{width:100%}
+  .calendar{padding:21px}
+  footer{padding:24px 4px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*:before,*:after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<noscript>Please enable JavaScript to use Polyglocio’s language selector and class finder.</noscript>
+<script>
+"use strict";
+
+const copy={
+en:{
+  title:"A new way to live languages.",
+  tagline:"Language meets the things you love",
+  nav:["Method","Classes","Workshops","Practice","Our teachers"],
+  menu:"Menu",language:"Website language",night:"Switch to night mode",day:"Switch to day mode",
+  top:"FRENCH & SPANISH · LIVE ONLINE",heroA:"A new way",heroB:"to",heroC:"live",heroD:"languages.",
+  intro:"Small-group classes, personal coaching, and cultural workshops that make French and Spanish part of your everyday life.",
+  cta:"Find my class",view:"View classes",ctaNote:"Choose your language and goals. No payment at this stage.",
+  trust:"Native-level teachers · Master’s-qualified in language teaching",
+  spanish:"Spanish",french:"French",online:"LIVE ONLINE",
+  spanishClass:"Spanish classes",frenchClass:"French classes",
+  spanishLine:"Make everyday conversations your own.",frenchLine:"Bring French into your everyday life.",
+  groupTag:"FIVE-MONTH GROUP COURSE",perLearner:"per learner · upfront",
+  experience:"THE POLYGLOCIO EXPERIENCE",
+  steps:[
+    ["Learn","Clear, structured lessons aligned with CEFR standards."],
+    ["Use","Real-life conversations and cultural workshops."],
+    ["Live","Bring the language into your everyday life through the things you love."]
+  ],
+  methodTag:"OUR APPROACH",methodTitle:"Language learning continues when the lesson ends.",
+  methodIntro:"We combine a structured curriculum with authentic experiences tailored to your interests. Progress in class becomes something you can use in everyday life.",
+  methodNote:"CEFR-informed learning, achievable goals, and useful teacher feedback. Exam preparation is available as a specialist pathway.",
+  coursesTag:"LEARN TOGETHER, FROM DAY ONE",coursesTitle:"Five months. A shared beginning.",
+  coursesIntro:"Two five-month courses each year: February–June and September–January. Your group starts and progresses together, with July and August free between course cycles.",
+  intakes:["February–June 2027","September 2027–January 2028"],
+  start:"Starts",hours:"80 teaching hours",fiveMonths:"Five-month course",
+  groupName:"Five-month group course",standard:"Standard package",upfront:"Upfront total",
+  groupDesc:"Live online French or Spanish, a consistent group, a structured syllabus, and two workshop selections included.",
+  hourly:"€10 per learner per hour · €9 with the upfront discount",
+  saving:"Save €80 with the 10% upfront discount.",
+  groupSize:"Proposed: 4–6 learners",chooseGroup:"Choose my group course",
+  privateName:"Private lessons",privateDesc:"One-to-one teaching shaped around your goals, level, interests, and availability.",
+  perHour:"per hour",choosePrivate:"Find my private lessons",
+  examName:"Exam preparation",examDesc:"Targeted coaching for DELF/DALF French and DELE Spanish, with strategies, task practice, and detailed feedback. Price quoted after discussing your goals.",
+  chooseExam:"Find my exam preparation",
+  timetable:"The full timetable, lesson days, holiday breaks, and enrollment conditions will be confirmed before purchasing opens.",
+  workshopTag:"BEYOND THE LESSON",workshopTitle:"Learn through what you already love.",
+  workshopIntro:"Choose two workshops with your group course. Dates, availability, and access conditions are confirmed before enrollment.",
+  workshops:[
+    ["Ciné-club","Explore films, discuss scenes, and discover useful expressions and cultural perspectives."],
+    ["Music workshops","Discover songs, artists, and the stories behind the music while building vocabulary and pronunciation."],
+    ["Conversation workshops","Practise everyday exchanges in friendly, teacher-guided small-group conversations."],
+    ["Book club","Read accessible texts and discuss them together, with vocabulary and cultural context."],
+    ["Creative writing","Find your voice through short stories, dialogues, and creative prompts."]
+  ],
+  practiceTag:"EVERYDAY ADVENTURES",practiceTitle:"Where will your next conversation take you?",
+  practiceIntro:"Try a short language scenario. The activities stay in the language you are practising.",
+  teacherTag:"THE PEOPLE BEHIND YOUR PROGRESS",teacherTitle:"Expert teaching. A human connection.",
+  qualificationTitle:"Native-level teachers. Master’s-qualified.",
+  qualification:"All our teachers have native-level proficiency and hold at least a master’s degree in foreign language teaching.",
+  founder:"Founded by Alejandro, Polyglocio connects classroom learning with the language we use in everyday life. His journey through Argentina, France, and Greece has shaped the project’s approach to teaching.",
+  countries:["Argentina","France","Greece"],
+  stories:[
+    "The beginning of Alejandro’s journey, and the roots of his curiosity about languages and the wider world.",
+    "Teaching, daily life, and studies in language didactics helped connect pedagogical structure with authentic experiences.",
+    "Further teaching and research experiences helped shape the project’s focus on language beyond the classroom."
+  ],
+  joinTag:"TAKE THE NEXT STEP",joinTitle:"Find the course that fits your life.",
+  joinIntro:"Tell us what you would like to learn. We’ll discuss your level, confirm availability, and help you choose a suitable class.",
+  labels:{language:"Language",format:"Learning format",level:"Your level",intake:"Preferred intake",goals:"What would you love to do in this language?",name:"Your name",email:"Email"},
+  groupOption:"Small-group course",privateOption:"Private lessons",examOption:"Exam preparation",
+  unsure:"I’m not sure",optional:"optional",prepare:"Prepare my request",
+  required:"Please complete all required fields and enter a valid email address.",
+  noPayment:"No payment is taken here. Your place is confirmed only after we agree on a class.",
+  ready:"Your request is ready.",readyNote:"Review your summary, then open your email app and send the message to contact us. Nothing has been sent or reserved yet.",
+  send:"Open email app",download:"Download my summary",reminder:"Download course-start reminder",
+  reminderNote:"The calendar file is an all-day preview reminder, not a confirmed lesson invitation.",
+  summaryLabels:{language:"Language",format:"Format",level:"Level",intake:"Intake",start:"Start date",hours:"Teaching hours",price:"Package price",goals:"Goals",name:"Name",email:"Email"},
+  discuss:"To discuss together",quoted:"Quoted after discussing your goals",
+  subject:"Polyglocio class request",hello:"Hello Polyglocio,",
+  emailIntro:"I would like to find a class. Here are my preferences:",
+  emailEnd:"Please confirm suitable classes, availability, schedules, and enrollment details. Thank you.",
+  preview:"Preview",calendarTitle:"Polyglocio course begins",
+  footer:"French & Spanish · Language meets the things you love.",
+  footerNote:"Website preview · No online payment or automatic reservation."
+},
+fr:{
+  title:"Une nouvelle façon de vivre les langues.",
+  tagline:"Les langues rencontrent vos passions",
+  nav:["Méthode","Cours","Ateliers","Pratique","Nos enseignants"],
+  menu:"Menu",language:"Langue du site",night:"Passer en mode nuit",day:"Passer en mode jour",
+  top:"FRANÇAIS ET ESPAGNOL · EN LIGNE ET EN DIRECT",
+  heroA:"Une nouvelle façon",heroB:"de",heroC:"vivre",heroD:"les langues.",
+  intro:"Des cours en petits groupes, un accompagnement individuel et des ateliers culturels pour faire entrer le français et l’espagnol dans votre quotidien.",
+  cta:"Trouver mon cours",view:"Voir les cours",ctaNote:"Choisissez votre langue et vos objectifs. Aucun paiement à cette étape.",
+  trust:"Enseignants de niveau natif · Titulaires d’un master en didactique des langues",
+  spanish:"Espagnol",french:"Français",online:"EN LIGNE ET EN DIRECT",
+  spanishClass:"Cours d’espagnol",frenchClass:"Cours de français",
+  spanishLine:"Prenez part aux conversations du quotidien.",frenchLine:"Faites entrer le français dans votre quotidien.",
+  groupTag:"COURS COLLECTIF DE CINQ MOIS",perLearner:"par personne · paiement intégral",
+  experience:"L’EXPÉRIENCE POLYGLOCIO",
+  steps:[
+    ["Apprendre","Des cours clairs et structurés, alignés sur le CECRL."],
+    ["Pratiquer","Des conversations réelles et des ateliers culturels."],
+    ["Vivre","Faites entrer la langue dans votre quotidien grâce à ce qui vous passionne."]
+  ],
+  methodTag:"NOTRE APPROCHE",methodTitle:"L’apprentissage continue après le cours.",
+  methodIntro:"Nous associons un programme structuré à des expériences authentiques adaptées à vos centres d’intérêt. Les progrès en cours deviennent des compétences utiles au quotidien.",
+  methodNote:"Une progression inspirée du CECRL, des objectifs accessibles et des retours utiles. La préparation aux examens constitue un parcours spécialisé.",
+  coursesTag:"APPRENDRE ENSEMBLE, DÈS LE PREMIER JOUR",coursesTitle:"Cinq mois. Un même départ.",
+  coursesIntro:"Deux cours de cinq mois chaque année : février–juin et septembre–janvier. Votre groupe commence et progresse ensemble, avec une pause en juillet et en août.",
+  intakes:["Février–juin 2027","Septembre 2027–janvier 2028"],
+  start:"Début",hours:"80 heures de cours",fiveMonths:"Cours de cinq mois",
+  groupName:"Cours collectif de cinq mois",standard:"Tarif standard",upfront:"Paiement intégral",
+  groupDesc:"Des cours de français ou d’espagnol en ligne et en direct, un groupe stable, un programme structuré et deux ateliers au choix inclus.",
+  hourly:"10 € par personne et par heure · 9 € avec la réduction pour paiement intégral",
+  saving:"Économisez 80 € grâce à la réduction de 10 % pour paiement intégral.",
+  groupSize:"Groupe prévu : 4 à 6 personnes",chooseGroup:"Choisir mon cours collectif",
+  privateName:"Cours particuliers",privateDesc:"Un accompagnement individuel adapté à vos objectifs, votre niveau, vos intérêts et vos disponibilités.",
+  perHour:"par heure",choosePrivate:"Trouver mes cours particuliers",
+  examName:"Préparation aux examens",examDesc:"Une préparation ciblée au DELF/DALF en français et au DELE en espagnol, avec stratégies, entraînement et retours détaillés. Tarif établi selon vos objectifs.",
+  chooseExam:"Trouver ma préparation",
+  timetable:"Les horaires, les jours de cours, les pauses et les conditions d’inscription seront confirmés avant l’ouverture des paiements.",
+  workshopTag:"AU-DELÀ DU COURS",workshopTitle:"Apprenez à travers vos passions.",
+  workshopIntro:"Choisissez deux ateliers avec votre cours collectif. Les dates, les disponibilités et les modalités d’accès sont confirmées avant l’inscription.",
+  workshops:[
+    ["Ciné-club","Explorez des films, discutez de scènes et découvrez des expressions utiles et de nouvelles perspectives culturelles."],
+    ["Ateliers musique","Découvrez des chansons, des artistes et leurs histoires tout en enrichissant votre vocabulaire et votre prononciation."],
+    ["Ateliers de conversation","Pratiquez les échanges du quotidien en petits groupes, dans des conversations conviviales guidées par un enseignant."],
+    ["Club de lecture","Lisez des textes accessibles et échangez autour du vocabulaire et du contexte culturel."],
+    ["Écriture créative","Trouvez votre voix grâce à des récits courts, des dialogues et des consignes créatives."]
+  ],
+  practiceTag:"AVENTURES DU QUOTIDIEN",practiceTitle:"Où vous mènera votre prochaine conversation ?",
+  practiceIntro:"Essayez une courte situation. Les activités restent dans la langue que vous pratiquez.",
+  teacherTag:"LES PERSONNES DERRIÈRE VOS PROGRÈS",teacherTitle:"Une expertise pédagogique. Un lien humain.",
+  qualificationTitle:"Des enseignants de niveau natif, diplômés d’un master.",
+  qualification:"Tous nos enseignants maîtrisent la langue à un niveau natif et sont titulaires d’au moins un master en didactique des langues étrangères.",
+  founder:"Fondé par Alejandro, Polyglocio relie l’apprentissage en cours à la langue utilisée au quotidien. Son parcours entre l’Argentine, la France et la Grèce a façonné l’approche pédagogique du projet.",
+  countries:["Argentine","France","Grèce"],
+  stories:[
+    "Le début du parcours d’Alejandro, à l’origine de sa curiosité pour les langues et le monde.",
+    "L’enseignement, la vie quotidienne et les études en didactique des langues ont permis de relier structure pédagogique et expériences authentiques.",
+    "De nouvelles expériences d’enseignement et de recherche ont nourri la réflexion sur la langue au-delà des cours."
+  ],
+  joinTag:"PASSEZ À L’ÉTAPE SUIVANTE",joinTitle:"Trouvez le cours qui vous correspond.",
+  joinIntro:"Dites-nous ce que vous souhaitez apprendre. Nous échangerons sur votre niveau et confirmerons les disponibilités pour vous proposer un cours adapté.",
+  labels:{language:"Langue",format:"Formule",level:"Votre niveau",intake:"Rentrée souhaitée",goals:"Qu’aimeriez-vous pouvoir faire dans cette langue ?",name:"Votre nom",email:"E-mail"},
+  groupOption:"Cours en petit groupe",privateOption:"Cours particuliers",examOption:"Préparation aux examens",
+  unsure:"Je ne connais pas mon niveau",optional:"facultatif",prepare:"Préparer ma demande",
+  required:"Veuillez remplir les champs obligatoires et saisir une adresse e-mail valide.",
+  noPayment:"Aucun paiement n’est effectué ici. Votre place sera confirmée après accord sur un cours.",
+  ready:"Votre demande est prête.",readyNote:"Vérifiez le récapitulatif, puis ouvrez votre messagerie pour nous envoyer le message. Rien n’a encore été envoyé ou réservé.",
+  send:"Ouvrir la messagerie",download:"Télécharger mon récapitulatif",reminder:"Télécharger un rappel de début de cours",
+  reminderNote:"Le calendrier contient un rappel indicatif sur la journée, pas une invitation à un cours confirmé.",
+  summaryLabels:{language:"Langue",format:"Formule",level:"Niveau",intake:"Rentrée",start:"Date de début",hours:"Heures de cours",price:"Tarif",goals:"Objectifs",name:"Nom",email:"E-mail"},
+  discuss:"À préciser ensemble",quoted:"Sur devis selon vos objectifs",
+  subject:"Demande de cours Polyglocio",hello:"Bonjour Polyglocio,",
+  emailIntro:"Je souhaiterais trouver un cours. Voici mes préférences :",
+  emailEnd:"Merci de confirmer les cours adaptés, les disponibilités, les horaires et les modalités d’inscription.",
+  preview:"Aperçu",calendarTitle:"Début du cours Polyglocio",
+  footer:"Français et espagnol · Les langues rencontrent vos passions.",
+  footerNote:"Aperçu du site · Aucun paiement en ligne ni réservation automatique."
+},
+es:{
+  title:"Una nueva forma de vivir los idiomas.",
+  tagline:"Los idiomas se unen a tus pasiones",
+  nav:["Método","Clases","Talleres","Práctica","Nuestros docentes"],
+  menu:"Menú",language:"Idioma del sitio",night:"Activar el modo noche",day:"Activar el modo día",
+  top:"FRANCÉS Y ESPAÑOL · ONLINE Y EN DIRECTO",
+  heroA:"Una nueva forma",heroB:"de",heroC:"vivir",heroD:"los idiomas.",
+  intro:"Clases en grupos reducidos, acompañamiento individual y talleres culturales para integrar el francés y el español en tu vida cotidiana.",
+  cta:"Encontrar mi curso",view:"Ver los cursos",ctaNote:"Elige tu idioma y tus objetivos. No se realiza ningún pago en esta etapa.",
+  trust:"Docentes de nivel nativo · Con máster en didáctica de lenguas",
+  spanish:"Español",french:"Francés",online:"ONLINE Y EN DIRECTO",
+  spanishClass:"Clases de español",frenchClass:"Clases de francés",
+  spanishLine:"Haz tuyas las conversaciones cotidianas.",frenchLine:"Integra el francés en tu vida cotidiana.",
+  groupTag:"CURSO GRUPAL DE CINCO MESES",perLearner:"por persona · pago anticipado",
+  experience:"LA EXPERIENCIA POLYGLOCIO",
+  steps:[
+    ["Aprender","Clases claras y estructuradas, alineadas con el MCER."],
+    ["Practicar","Conversaciones reales y talleres culturales."],
+    ["Vivir","Haz que el idioma forme parte de tu día a día a través de lo que te apasiona."]
+  ],
+  methodTag:"NUESTRO ENFOQUE",methodTitle:"El aprendizaje continúa después de clase.",
+  methodIntro:"Combinamos un programa estructurado con experiencias auténticas adaptadas a tus intereses. El progreso en clase se convierte en algo útil para la vida cotidiana.",
+  methodNote:"Una progresión inspirada en el MCER, objetivos alcanzables y comentarios útiles. La preparación de exámenes se ofrece como un itinerario especializado.",
+  coursesTag:"APRENDER JUNTOS DESDE EL PRIMER DÍA",coursesTitle:"Cinco meses. Un comienzo compartido.",
+  coursesIntro:"Dos cursos de cinco meses al año: febrero–junio y septiembre–enero. Tu grupo empieza y avanza unido, con una pausa en julio y agosto.",
+  intakes:["Febrero–junio de 2027","Septiembre de 2027–enero de 2028"],
+  start:"Comienza",hours:"80 horas de clase",fiveMonths:"Curso de cinco meses",
+  groupName:"Curso grupal de cinco meses",standard:"Precio estándar",upfront:"Pago anticipado",
+  groupDesc:"Clases de francés o español online y en directo, un grupo estable, un programa estructurado y dos talleres a elegir incluidos.",
+  hourly:"10 € por persona y hora · 9 € con el descuento por pago anticipado",
+  saving:"Ahorra 80 € con el descuento del 10 % por pago anticipado.",
+  groupSize:"Grupo previsto: de 4 a 6 personas",chooseGroup:"Elegir mi curso grupal",
+  privateName:"Clases particulares",privateDesc:"Clases individuales adaptadas a tus objetivos, nivel, intereses y disponibilidad.",
+  perHour:"por hora",choosePrivate:"Encontrar mis clases particulares",
+  examName:"Preparación de exámenes",examDesc:"Preparación específica para el DELF/DALF de francés y el DELE de español, con estrategias, práctica y comentarios detallados. Presupuesto según tus objetivos.",
+  chooseExam:"Encontrar mi preparación",
+  timetable:"El horario completo, los días de clase, los descansos y las condiciones de inscripción se confirmarán antes de abrir los pagos.",
+  workshopTag:"MÁS ALLÁ DE LA CLASE",workshopTitle:"Aprende a través de tus pasiones.",
+  workshopIntro:"Elige dos talleres con tu curso grupal. Las fechas, la disponibilidad y las condiciones de acceso se confirman antes de la inscripción.",
+  workshops:[
+    ["Cineclub","Explora películas, comenta escenas y descubre expresiones útiles y nuevas perspectivas culturales."],
+    ["Talleres de música","Descubre canciones, artistas e historias mientras amplías tu vocabulario y mejoras tu pronunciación."],
+    ["Talleres de conversación","Practica intercambios cotidianos en grupos reducidos, con conversaciones cercanas guiadas por un docente."],
+    ["Club de lectura","Lee textos accesibles y coméntalos junto con su vocabulario y contexto cultural."],
+    ["Escritura creativa","Encuentra tu voz con relatos breves, diálogos y propuestas creativas."]
+  ],
+  practiceTag:"AVENTURAS COTIDIANAS",practiceTitle:"¿Adónde te llevará tu próxima conversación?",
+  practiceIntro:"Prueba una situación breve. Las actividades se mantienen en el idioma que estás practicando.",
+  teacherTag:"LAS PERSONAS DETRÁS DE TU PROGRESO",teacherTitle:"Experiencia pedagógica. Conexión humana.",
+  qualificationTitle:"Docentes de nivel nativo, con formación de máster.",
+  qualification:"Todos nuestros docentes tienen un dominio del idioma a nivel nativo y cuentan, como mínimo, con un máster en didáctica de lenguas extranjeras.",
+  founder:"Fundado por Alejandro, Polyglocio conecta lo aprendido en clase con el idioma que usamos cada día. Su recorrido entre Argentina, Francia y Grecia ha marcado el enfoque pedagógico del proyecto.",
+  countries:["Argentina","Francia","Grecia"],
+  stories:[
+    "El comienzo del recorrido de Alejandro, donde nació su curiosidad por los idiomas y el mundo.",
+    "La enseñanza, la vida cotidiana y los estudios en didáctica de lenguas conectaron la estructura pedagógica con las experiencias auténticas.",
+    "Nuevas experiencias docentes y de investigación impulsaron la reflexión sobre el idioma más allá del aula."
+  ],
+  joinTag:"DA EL SIGUIENTE PASO",joinTitle:"Encuentra el curso que encaje con tu vida.",
+  joinIntro:"Cuéntanos qué te gustaría aprender. Hablaremos de tu nivel y confirmaremos la disponibilidad para encontrar una clase adecuada.",
+  labels:{language:"Idioma",format:"Modalidad",level:"Tu nivel",intake:"Inicio preferido",goals:"¿Qué te gustaría poder hacer en este idioma?",name:"Tu nombre",email:"Correo electrónico"},
+  groupOption:"Curso en grupo reducido",privateOption:"Clases particulares",examOption:"Preparación de exámenes",
+  unsure:"No estoy seguro de mi nivel",optional:"opcional",prepare:"Preparar mi solicitud",
+  required:"Completa los campos obligatorios e introduce una dirección de correo válida.",
+  noPayment:"Aquí no se realiza ningún pago. Tu plaza se confirmará cuando acordemos una clase.",
+  ready:"Tu solicitud está lista.",readyNote:"Revisa el resumen y abre tu aplicación de correo para enviarnos el mensaje. Todavía no se ha enviado nada ni se ha reservado ninguna plaza.",
+  send:"Abrir la aplicación de correo",download:"Descargar mi resumen",reminder:"Descargar recordatorio de inicio",
+  reminderNote:"El calendario contiene un recordatorio de día completo, no una invitación a una clase confirmada.",
+  summaryLabels:{language:"Idioma",format:"Modalidad",level:"Nivel",intake:"Inicio del curso",start:"Fecha de inicio",hours:"Horas de clase",price:"Precio",goals:"Objetivos",name:"Nombre",email:"Correo electrónico"},
+  discuss:"A concretar juntos",quoted:"Presupuesto según tus objetivos",
+  subject:"Solicitud de clases de Polyglocio",hello:"Hola, Polyglocio:",
+  emailIntro:"Me gustaría encontrar un curso. Estas son mis preferencias:",
+  emailEnd:"Por favor, confirmad las clases adecuadas, la disponibilidad, los horarios y las condiciones de inscripción. Gracias.",
+  preview:"Vista previa",calendarTitle:"Comienza el curso de Polyglocio",
+  footer:"Francés y español · Los idiomas se unen a tus pasiones.",
+  footerNote:"Vista previa del sitio · Sin pagos online ni reservas automáticas."
+}
+};
+
+const esc=value=>String(value??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+const starts=["2027-02-01","2027-09-06"];
+let lang="en",theme="light";
+try{
+  const saved=localStorage.getItem("polyglocio-language");
+  if(copy[saved])lang=saved;
+  theme=localStorage.getItem("polyglocio-theme")||
+    (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
+}catch{}
+if(!["light","dark"].includes(theme))theme="light";
+let routeIndex=0,prepared=false;
+const formState={language:"French",format:"group",level:"unsure",intake:"0",goals:"",name:"",email:""};
+let gameState={language:"fr",step:0,correct:false};
+
+const t=()=>copy[lang];
+const currency=n=>new Intl.NumberFormat(lang,{
+  style:"currency",currency:"EUR",maximumFractionDigits:0
+}).format(n);
+const startLabel=index=>new Intl.DateTimeFormat(lang,{
+  weekday:"long",day:"numeric",month:"long",year:"numeric",timeZone:"UTC"
+}).format(new Date(starts[index]+"T12:00:00Z"));
+const globe=`<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>`;
+
+function options(values,current){
+  return values.map(([value,label])=>`<option value="${esc(value)}" ${value===current?"selected":""}>${esc(label)}</option>`).join("");
+}
+function rememberForm(){
+  const form=document.querySelector("#class-form");
+  if(!form)return;
+  for(const key of Object.keys(formState)){
+    if(form.elements[key])formState[key]=form.elements[key].value;
+  }
+}
+function formatLabel(){
+  return formState.format==="group"?t().groupOption:
+    formState.format==="private"?t().privateOption:t().examOption;
+}
+function rows(){
+  const c=t(),labels=c.summaryLabels;
+  const result=[
+    [labels.language,formState.language==="French"?c.french:c.spanish],
+    [labels.format,formatLabel()],
+    [labels.level,formState.level==="unsure"?c.unsure:formState.level]
+  ];
+  if(formState.format==="group"){
+    const index=Number(formState.intake);
+    result.push(
+      [labels.intake,c.intakes[index]],
+      [labels.start,startLabel(index)],
+      [labels.hours,c.hours],
+      [labels.price,`${currency(800)} — ${c.standard}; ${currency(720)} — ${c.upfront}`]
+    );
+  }else{
+    result.push([labels.price,formState.format==="private"?`${currency(25)} / ${c.perHour}`:c.quoted]);
+  }
+  result.push(
+    [labels.goals,formState.goals.trim()||c.discuss],
+    [labels.name,formState.name.trim()],
+    [labels.email,formState.email.trim()]
+  );
+  return result;
+}
+function requestText(){
+  return `${t().hello}\n\n${t().emailIntro}\n\n`+
+    rows().map(([label,value])=>`${label}: ${value}`).join("\n")+
+    `\n\n${t().emailEnd}\n\n${t().noPayment}`;
+}
+function renderSummary(){
+  const target=document.querySelector("#summary");
+  if(!prepared){target.hidden=true;return}
+  const c=t();
+  const mail="mailto:alex.mohedas@icloud.com?subject="+
+    encodeURIComponent(c.subject)+"&body="+encodeURIComponent(requestText());
+  target.hidden=false;
+  target.innerHTML=`
+    <h3>${c.ready}</h3><p class="note">${c.readyNote}</p>
+    <dl>${rows().map(([key,value])=>`<div><dt>${esc(key)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>
+    <div class="summary-actions">
+      <a class="button primary" href="${esc(mail)}">${c.send} →</a>
+      <button class="button secondary" type="button" data-download>${c.download} ↓</button>
+      ${formState.format==="group"?`<button class="button secondary" type="button" data-calendar>${c.reminder} ↓</button>`:""}
+    </div>
+    ${formState.format==="group"?`<p class="note">${c.reminderNote}</p>`:""}`;
+}
+function render(){
+  const c=t();
+  document.documentElement.lang=lang;
+  document.documentElement.dataset.theme=theme;
+  document.title="Polyglocio — "+c.title;
+  document.querySelector("#app").innerHTML=`
+  <a class="skip" href="#main">${c.view}</a>
+  <div class="wrap">
+  <main id="main">
+    <section class="sheet" id="home">
+      <header>
+        <div class="brand-block">
+          <a href="#home" class="brand">Polyglocio<span>.</span></a>
+          <p class="tagline">${c.tagline}</p>
+        </div>
+        <nav class="nav" id="navigation" aria-label="${esc(c.menu)}">
+          ${["method","courses","workshops","practice","teachers"].map((id,i)=>`<a href="#${id}">${c.nav[i]}</a>`).join("")}
+          <a href="#join" class="button primary">${c.cta}</a>
+        </nav>
+        <div class="controls">
+          <div class="language">
+            <button class="icon-button" id="language-button" type="button"
+              aria-label="${esc(c.language)}" aria-expanded="false" aria-controls="language-panel">${globe}</button>
+            <div class="language-panel" id="language-panel" hidden>
+              <p>${c.language}</p>
+              ${[["en","English"],["fr","Français"],["es","Español"]].map(([code,name])=>`
+                <button class="language-option" type="button" lang="${code}" data-language="${code}"
+                aria-pressed="${lang===code}">${name}</button>`).join("")}
+            </div>
+          </div>
+          <button class="icon-button" id="theme-button" type="button" aria-pressed="${theme==="dark"}"
+            aria-label="${esc(theme==="dark"?c.day:c.night)}">${theme==="dark"?"☀":"☾"}</button>
+          <button class="menu-button" id="menu-button" type="button"
+            aria-expanded="false" aria-controls="navigation">${c.menu} ☰</button>
+        </div>
+      </header>
+      <div class="hero">
+        <div>
+          <div class="eyebrow">${c.top}</div>
+          <h1>${c.heroA}<br>${c.heroB} <em>${c.heroC}</em><br>${c.heroD}</h1>
+          <p class="lead">${c.intro}</p>
+          <div class="hero-actions">
+            <a href="#join" class="button primary">${c.cta} →</a>
+            <a href="#courses" class="text-link">${c.view} →</a>
+          </div>
+          <p class="trust">${c.trust}</p>
+          <p class="note">${c.ctaNote}</p>
+        </div>
+        <div class="hero-art">
+          <div class="art-star" aria-hidden="true">✳</div>
+          <div class="greeting green">
+            <small>ES / ESPAÑOL · ${c.online}</small><strong lang="es">¡Hola!</strong>
+            <a href="#join" data-course-language="Spanish">${c.spanishClass} →</a>
+            <p class="note" style="color:inherit">${c.spanishLine}</p>
+          </div>
+          <div class="greeting">
+            <small>FR / FRANÇAIS · ${c.online}</small><strong lang="fr">Bonjour !</strong>
+            <a href="#join" data-course-language="French">${c.frenchClass} →</a>
+            <p class="note">${c.frenchLine}</p>
+          </div>
+          <a class="art-price" href="#courses">${c.groupTag}<strong>${currency(720)}</strong>${c.perLearner} →</a>
+        </div>
+      </div>
+      <div class="experience">
+        <div class="eyebrow">${c.experience}</div>
+        <div class="three steps">${c.steps.map(([title,text],i)=>`
+          <article class="step"><div class="step-number">0${i+1}</div><h3>${title}</h3><p>${text}</p></article>`).join("")}</div>
+      </div>
+    </section>
+
+    <section class="sheet" id="method">
+      <div class="eyebrow">${c.methodTag}</div><h2>${c.methodTitle}</h2>
+      <p class="lead">${c.methodIntro}</p>
+      <div class="three steps">${c.steps.map(([title,text],i)=>`
+        <article class="card ${i===1?"lilac":i===2?"soft":""}">
+          <div class="workshop-icon" aria-hidden="true">0${i+1}.</div><h3>${title}</h3><p>${text}</p>
+        </article>`).join("")}</div>
+      <p class="note">${c.methodNote}</p>
+    </section>
+
+    <section class="sheet" id="courses">
+      <div class="eyebrow">${c.coursesTag}</div><h2>${c.coursesTitle}</h2>
+      <p class="lead">${c.coursesIntro}</p>
+      <div class="calendar two">
+        ${c.intakes.map((label,i)=>`<article><div class="tag">0${i+1}</div><h3>${label}</h3><p>${c.start}: ${startLabel(i)}<br>${c.hours}</p></article>`).join("")}
+      </div>
+      <div class="two">
+        <article class="card lilac">
+          <div class="tag">${c.groupTag}</div><h3 style="margin-top:15px">${c.groupName}</h3>
+          <div class="standard">${c.standard}: ${currency(800)}</div>
+          <div class="price">${currency(720)} <small>/ ${c.upfront}</small></div>
+          <p>${c.groupDesc}</p><p>${c.hourly}</p><p>${c.saving}</p>
+          <div class="facts"><span class="fact">${c.groupSize}</span><span class="fact">${c.fiveMonths}</span><span class="fact">${c.hours}</span></div>
+          <a href="#join" class="button primary" data-format="group">${c.chooseGroup} →</a>
+        </article>
+        <article class="card">
+          <h3>${c.privateName}</h3><div class="price">${currency(25)} <small>/ ${c.perHour}</small></div>
+          <p>${c.privateDesc}</p>
+          <a href="#join" class="button secondary" data-format="private">${c.choosePrivate} →</a>
+          <details class="course-extras"><summary>${c.examName}</summary><p>${c.examDesc}</p>
+            <a href="#join" class="button secondary" data-format="exam">${c.chooseExam} →</a>
+          </details>
+        </article>
+      </div>
+      <p class="note">${c.timetable}</p>
+    </section>
+
+    <section class="sheet" id="workshops">
+      <div class="eyebrow">${c.workshopTag}</div><h2>${c.workshopTitle}</h2>
+      <p class="lead">${c.workshopIntro}</p>
+      <div class="workshops" style="margin-top:28px">
+        ${c.workshops.map(([title,text],i)=>`<article class="card ${i===0?"lilac":i===1?"soft":""}">
+          <div class="workshop-icon" aria-hidden="true">${["◉","♫","“ ”","Aa","✎"][i]}</div>
+          <h3>${title}</h3><p>${text}</p>
+        </article>`).join("")}
+      </div>
+    </section>
+
+    <section class="sheet" id="practice">
+      <div class="eyebrow">${c.practiceTag}</div><h2>${c.practiceTitle}</h2>
+      <p class="lead">${c.practiceIntro}</p>
+      <div class="practice-tabs">
+        <button class="button secondary" type="button" data-game="fr" aria-pressed="${gameState.language==="fr"}">Français</button>
+        <button class="button secondary" type="button" data-game="es" aria-pressed="${gameState.language==="es"}">Español</button>
+      </div>
+      <div class="game" id="game"></div>
+    </section>
+
+    <section class="sheet" id="teachers">
+      <div class="eyebrow">${c.teacherTag}</div><h2>${c.teacherTitle}</h2>
+      <div class="qualification"><h3>${c.qualificationTitle}</h3><p>${c.qualification}</p></div>
+      <p class="lead">${c.founder}</p>
+      <div class="route">${c.countries.map((name,i)=>`<button type="button" data-route="${i}" aria-pressed="${routeIndex===i}">${name}</button>`).join("")}</div>
+      <p class="route-story" id="route-story">${c.stories[routeIndex]}</p>
+    </section>
+
+    <section class="sheet" id="join">
+      <div class="eyebrow">${c.joinTag}</div><h2>${c.joinTitle}</h2>
+      <p class="lead">${c.joinIntro}</p>
+      <form id="class-form" novalidate style="margin-top:28px">
+        <p class="form-error" id="form-error" role="alert" hidden>${c.required}</p>
+        <div class="form-grid">
+          <label class="field"><span>${c.labels.language} *</span><select name="language" required>
+            ${options([["French",c.french],["Spanish",c.spanish]],formState.language)}
+          </select></label>
+          <label class="field"><span>${c.labels.format} *</span><select name="format" required>
+            ${options([["group",c.groupOption],["private",c.privateOption],["exam",c.examOption]],formState.format)}
+          </select></label>
+          <label class="field"><span>${c.labels.level} *</span><select name="level" required>
+            ${options([["unsure",c.unsure],...["A0","A1","A2","B1","B2","C1","C2"].map(x=>[x,x])],formState.level)}
+          </select></label>
+          <label class="field" id="intake-field" ${formState.format!=="group"?"hidden":""}>
+            <span>${c.labels.intake} *</span><select name="intake" ${formState.format!=="group"?"disabled":""}>
+              ${options(c.intakes.map((x,i)=>[String(i),x]),formState.intake)}
+            </select>
+          </label>
+          <label class="field wide"><span>${c.labels.goals} (${c.optional})</span>
+            <textarea name="goals" maxlength="2000">${esc(formState.goals)}</textarea>
+          </label>
+          <label class="field"><span>${c.labels.name} *</span><input name="name" autocomplete="name" required maxlength="120" value="${esc(formState.name)}"></label>
+          <label class="field"><span>${c.labels.email} *</span><input name="email" type="email" autocomplete="email" required maxlength="254" value="${esc(formState.email)}"></label>
+        </div>
+        <div class="form-actions"><button class="button primary" type="submit">${c.prepare} →</button><span class="note" style="margin:0">${c.noPayment}</span></div>
+      </form>
+      <section class="summary" id="summary" aria-live="polite" hidden></section>
+    </section>
+  </main>
+  <footer><span>${c.footer}</span><span>${c.footerNote}</span></footer>
+  </div>`;
+  renderSummary();
+  renderGame();
+  bindForm();
+}
+
+function bindForm(){
+  const form=document.querySelector("#class-form");
+  form.addEventListener("input",()=>{
+    rememberForm();prepared=false;
+    document.querySelector("#summary").hidden=true;
+    document.querySelector("#form-error").hidden=true;
+  });
+  form.elements.format.addEventListener("change",()=>{
+    rememberForm();
+    const group=formState.format==="group";
+    document.querySelector("#intake-field").hidden=!group;
+    form.elements.intake.disabled=!group;
+  });
+  form.addEventListener("submit",event=>{
+    event.preventDefault();rememberForm();
+    const name=form.elements.name,email=form.elements.email;
+    if(!name.value.trim()||!email.checkValidity()){
+      document.querySelector("#form-error").hidden=false;
+      (!name.value.trim()?name:email).focus();return;
+    }
+    document.querySelector("#form-error").hidden=true;
+    prepared=true;renderSummary();
+    document.querySelector("#summary").scrollIntoView({block:"start"});
+  });
+}
+
+const games={
+fr:{
+  place:"Une matinée à Paris.",
+  steps:[
+    {text:"Marianne veut acheter une baguette. Où doit-elle aller ?",options:["À la pharmacie","À la boulangerie","À la banque"],answer:1,yes:"Exactement ! On achète le pain à la boulangerie.",no:"Essayez encore : cherchez le commerce qui vend du pain."},
+    {text:"Vous entrez dans la boulangerie. Que dites-vous ?",options:["Bonjour, je voudrais une baguette, s’il vous plaît.","Où est la gare ?","Je cherche un livre."],answer:0,yes:"Très bien ! Une demande claire et polie.",no:"Choisissez la phrase qui permet de commander du pain."},
+    {text:"La boulangère vous donne votre baguette. Vous répondez…",options:["Je suis perdu.","Merci, au revoir !","Je voudrais réserver une chambre."],answer:1,yes:"Bravo ! Votre mission est accomplie.",no:"Quelle formule utilise-t-on pour remercier et prendre congé ?"}
+  ],
+  next:"Continuer →",retry:"Recommencer",done:"Bravo ! Marianne a sa baguette. À bientôt pour une nouvelle conversation."
+},
+es:{
+  place:"Un libro en Buenos Aires.",
+  steps:[
+    {text:"Pablo quiere comprar El Aleph, de Borges. ¿Adónde debe ir?",options:["A la farmacia","A la panadería","A la librería"],answer:2,yes:"¡Exacto! Los libros se compran en la librería.",no:"Probá otra vez: buscá el comercio que vende libros."},
+    {text:"Entrás a la librería. ¿Qué decís?",options:["Hola, estoy buscando El Aleph, de Borges.","Quisiera una baguette.","¿Dónde está el aeropuerto?"],answer:0,yes:"¡Muy bien! Explicaste claramente qué libro buscás.",no:"Elegí la frase que sirve para pedir un libro."},
+    {text:"El librero te entrega el libro. ¿Cómo respondés?",options:["No hablo francés.","¡Gracias! ¡Hasta luego!","Quiero ir al hospital."],answer:1,yes:"¡Excelente! Completaste tu misión.",no:"Elegí una forma de agradecer y despedirte."}
+  ],
+  next:"Continuar →",retry:"Volver a empezar",done:"¡Muy bien! Pablo ya tiene su libro. Hasta la próxima aventura."
+}
+};
+function renderGame(){
+  const host=document.querySelector("#game"),g=games[gameState.language];
+  host.lang=gameState.language;
+  if(gameState.step>=g.steps.length){
+    host.innerHTML=`<div class="scene">${g.place}</div><p>${g.done}</p><button type="button" class="button secondary" data-game-reset>${g.retry}</button>`;
+    return;
+  }
+  const step=g.steps[gameState.step];
+  host.innerHTML=`
+    <div class="eyebrow">${gameState.step+1} / ${g.steps.length}</div>
+    <div class="scene">${g.place}</div><p>${step.text}</p>
+    <div class="game-options">${step.options.map((text,i)=>`<button type="button" data-answer="${i}">${text}</button>`).join("")}</div>
+    <p class="game-feedback" id="game-feedback" role="status"></p>
+    <button type="button" class="button primary" data-game-next hidden>${g.next}</button>`;
+}
+function closeLanguage(focus=false){
+  const panel=document.querySelector("#language-panel"),button=document.querySelector("#language-button");
+  panel.hidden=true;button.setAttribute("aria-expanded","false");
+  if(focus)button.focus();
+}
+function openLanguage(){
+  document.querySelector("#navigation").classList.remove("open");
+  document.querySelector("#menu-button").setAttribute("aria-expanded","false");
+  document.querySelector("#language-panel").hidden=false;
+  document.querySelector("#language-button").setAttribute("aria-expanded","true");
+  document.querySelector(`[data-language="${lang}"]`).focus();
+}
+function download(text,name,type="text/plain;charset=utf-8"){
+  const url=URL.createObjectURL(new Blob([text],{type}));
+  const a=document.createElement("a");a.href=url;a.download=name;
+  document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+function calendar(){
+  const start=starts[Number(formState.intake)];
+  const end=new Date(start+"T12:00:00Z");end.setUTCDate(end.getUTCDate()+1);
+  const compact=x=>x.replaceAll("-","");
+  const stamp=new Date().toISOString().replace(/[-:]|\.\d{3}/g,"");
+  const lines=[
+    "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Polyglocio//Course Preview//EN",
+    "CALSCALE:GREGORIAN","BEGIN:VEVENT",
+    "UID:polyglocio-preview-"+compact(start)+"@polyglocio.example",
+    "DTSTAMP:"+stamp,"DTSTART;VALUE=DATE:"+compact(start),
+    "DTEND;VALUE=DATE:"+compact(end.toISOString().slice(0,10)),
+    `SUMMARY;LANGUAGE=${lang}:[${t().preview}] ${t().calendarTitle}`,
+    `DESCRIPTION;LANGUAGE=${lang}:${t().reminderNote}`,
+    "STATUS:TENTATIVE","TRANSP:TRANSPARENT","END:VEVENT","END:VCALENDAR"
+  ];
+  const folded=lines.map(line=>{
+    let out="",part="",bytes=0;
+    for(const char of line){
+      const size=new TextEncoder().encode(char).length;
+      if(bytes+size>74){out+=part+"\r\n";part=" ";bytes=1}
+      part+=char;bytes+=size;
+    }
+    return out+part;
+  }).join("\r\n")+"\r\n";
+  download(folded,"polyglocio-course-preview.ics","text/calendar;charset=utf-8");
+}
+document.addEventListener("click",event=>{
+  const target=event.target.closest("button,a");
+  if(!target)return;
+  if(target.id==="language-button"){
+    document.querySelector("#language-panel").hidden?openLanguage():closeLanguage();
+    return;
+  }
+  if(target.dataset.language){
+    const selected=target.dataset.language;
+    if(selected===lang){closeLanguage(true);return}
+    rememberForm();const y=window.scrollY;lang=selected;
+    try{localStorage.setItem("polyglocio-language",lang)}catch{}
+    render();requestAnimationFrame(()=>window.scrollTo(0,y));
+    document.querySelector("#language-button").focus({preventScroll:true});return;
+  }
+  if(target.id==="theme-button"){
+    theme=theme==="dark"?"light":"dark";
+    document.documentElement.dataset.theme=theme;
+    try{localStorage.setItem("polyglocio-theme",theme)}catch{}
+    target.textContent=theme==="dark"?"☀":"☾";
+    target.setAttribute("aria-pressed",String(theme==="dark"));
+    target.setAttribute("aria-label",theme==="dark"?t().day:t().night);
+    return;
+  }
+  if(target.id==="menu-button"){
+    closeLanguage();
+    const open=document.querySelector("#navigation").classList.toggle("open");
+    target.setAttribute("aria-expanded",String(open));return;
+  }
+  if(target.dataset.format||target.dataset.courseLanguage){
+    rememberForm();
+    if(target.dataset.format)formState.format=target.dataset.format;
+    if(target.dataset.courseLanguage)formState.language=target.dataset.courseLanguage;
+    prepared=false;
+    const form=document.querySelector("#class-form");
+    form.elements.format.value=formState.format;
+    form.elements.language.value=formState.language;
+    const group=formState.format==="group";
+    form.elements.intake.disabled=!group;
+    document.querySelector("#intake-field").hidden=!group;
+    document.querySelector("#summary").hidden=true;
+  }
+  if(target.dataset.route!==undefined){
+    routeIndex=Number(target.dataset.route);
+    document.querySelectorAll("[data-route]").forEach(b=>b.setAttribute("aria-pressed",String(Number(b.dataset.route)===routeIndex)));
+    document.querySelector("#route-story").textContent=t().stories[routeIndex];
+  }
+  if(target.dataset.game){
+    gameState={language:target.dataset.game,step:0,correct:false};
+    document.querySelectorAll("[data-game]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.game===gameState.language)));
+    renderGame();
+  }
+  if(target.dataset.answer!==undefined){
+    const step=games[gameState.language].steps[gameState.step];
+    gameState.correct=Number(target.dataset.answer)===step.answer;
+    document.querySelector("#game-feedback").textContent=gameState.correct?step.yes:step.no;
+    document.querySelector("[data-game-next]").hidden=!gameState.correct;
+  }
+  if(target.hasAttribute("data-game-next")){
+    gameState.step++;gameState.correct=false;renderGame();
+    document.querySelector("#game button")?.focus();
+  }
+  if(target.hasAttribute("data-game-reset")){
+    gameState.step=0;gameState.correct=false;renderGame();
+    document.querySelector("#game button")?.focus();
+  }
+  if(target.hasAttribute("data-download"))download(requestText(),"polyglocio-class-request.txt");
+  if(target.hasAttribute("data-calendar"))calendar();
+  if(target.closest("#navigation")){
+    document.querySelector("#navigation").classList.remove("open");
+    document.querySelector("#menu-button").setAttribute("aria-expanded","false");
+  }
+});
+document.addEventListener("click",event=>{
+  if(!event.target.closest(".language"))closeLanguage();
+});
+document.addEventListener("focusout",event=>{
+  if(event.target.closest(".language")&&!event.relatedTarget?.closest(".language"))closeLanguage();
+});
+document.addEventListener("keydown",event=>{
+  const panel=document.querySelector("#language-panel");
+  if(event.key==="Escape"){
+    if(!panel.hidden){event.preventDefault();closeLanguage(true)}
+    else{
+      const nav=document.querySelector("#navigation");
+      if(nav.classList.contains("open")){
+        nav.classList.remove("open");
+        document.querySelector("#menu-button").setAttribute("aria-expanded","false");
+        document.querySelector("#menu-button").focus();
+      }
+    }
+    return;
+  }
+  if(event.target.id==="language-button"&&["ArrowDown","ArrowUp"].includes(event.key)){
+    event.preventDefault();openLanguage();return;
+  }
+  if(!panel.hidden&&event.target.closest(".language")&&["ArrowDown","ArrowUp","Home","End"].includes(event.key)){
+    event.preventDefault();
+    const buttons=[...panel.querySelectorAll("button")];
+    const current=buttons.indexOf(document.activeElement);
+    const next=event.key==="Home"?0:event.key==="End"?buttons.length-1:
+      (current+(event.key==="ArrowDown"?1:-1)+buttons.length)%buttons.length;
+    buttons[next].focus();
+  }
+});
+render();
+</script>
+</body>
+</html>
